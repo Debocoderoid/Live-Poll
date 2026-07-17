@@ -36,7 +36,7 @@ async function createPoll(req, res) {
         }
 
         const formattedOptions = options.map((opt) => ({
-            text: opt.text,
+            text: typeof opt === 'string' ? opt : opt.text,
             votes: 0,
         }))
 
@@ -48,7 +48,7 @@ async function createPoll(req, res) {
     catch(err) {
         res.status(500).json({
             message: "Server Error",
-            error: err
+            error: err.message
         })
     }
 }
