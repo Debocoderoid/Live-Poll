@@ -4,6 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const { Server } = require('socket.io')
 const pollRoutes = require('./routes/polls.routes')
+const Poll = require('./models/polls.model')
 const connectDB = require('./db')
 
 connectDB()
@@ -53,7 +54,7 @@ io.on("connection", (socket)=> {
             await poll.save()
 
             // Broadcast
-            io.to(pollId).emit['pollUpdated', poll]
+            io.to(pollId).emit('pollUpdated', poll)
         }   
         catch(err) {
             console.error("Vote error by socket")
