@@ -6,22 +6,22 @@ function Navbar() {
   const location = useLocation();
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
+    <nav className="lp-navbar">
+      <div className="lp-navbar-container">
+        <Link to="/" className="lp-navbar-logo">
           <span className="logo-icon">⚡</span>
           LivePoll
         </Link>
-        <div className="navbar-links">
+        <div className="lp-navbar-links">
           <Link
             to="/"
-            className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+            className={`lp-nav-link ${location.pathname === '/' ? 'active' : ''}`}
           >
             Home
           </Link>
           <Link
             to="/create"
-            className={`nav-link nav-link-cta ${location.pathname === '/create' ? 'active' : ''}`}
+            className={`lp-nav-link lp-nav-link-cta ${location.pathname === '/create' ? 'active' : ''}`}
           >
             + Create Poll
           </Link>

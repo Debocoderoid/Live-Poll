@@ -1,13 +1,10 @@
-/* ============================================
-   NAVBAR STYLES — LivePoll
-   ============================================ */
-
-.navbar {
+.lp-navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+  width: 100%;
   background: rgba(15, 15, 15, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -15,21 +12,19 @@
   height: 72px;
 }
 
-.navbar-container {
+.lp-navbar-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
   height: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* logo left, links group right */
 }
 
-/* ============================================
-   LOGO
-   ============================================ */
-
-.navbar-logo {
+.lp-navbar-logo {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -40,7 +35,7 @@
   transition: opacity var(--transition);
 }
 
-.navbar-logo:hover {
+.lp-navbar-logo:hover {
   opacity: 0.85;
 }
 
@@ -55,17 +50,13 @@
   50% { filter: drop-shadow(0 0 14px rgba(108, 99, 255, 1)); }
 }
 
-/* ============================================
-   NAV LINKS
-   ============================================ */
-
-.navbar-links {
+.lp-navbar-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px; /* space between Home and + Create Poll */
 }
 
-.nav-link {
+.lp-nav-link {
   padding: 8px 16px;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
@@ -74,13 +65,13 @@
   transition: color var(--transition), background var(--transition);
 }
 
-.nav-link:hover,
-.nav-link.active {
+.lp-nav-link:hover,
+.lp-nav-link.active {
   color: var(--text-primary);
   background: var(--bg-tertiary);
 }
 
-.nav-link-cta {
+.lp-nav-link-cta {
   background: var(--accent);
   color: var(--text-primary) !important;
   font-weight: 600;
@@ -89,30 +80,26 @@
   transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
-.nav-link-cta:hover {
+.lp-nav-link-cta:hover {
   background: var(--accent-light) !important;
   transform: translateY(-1px);
   box-shadow: 0 4px 24px rgba(108, 99, 255, 0.5);
 }
 
-.nav-link-cta.active {
+.lp-nav-link-cta.active {
   background: var(--accent-dark) !important;
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-
 @media (max-width: 480px) {
-  .navbar-container {
+  .lp-navbar-container {
     padding: 0 16px;
   }
 
-  .navbar-logo {
+  .lp-navbar-logo {
     font-size: 1.2rem;
   }
 
-  .nav-link:not(.nav-link-cta) {
+  .lp-nav-link:not(.lp-nav-link-cta) {
     display: none;
   }
 }
