@@ -38,26 +38,23 @@ io.on("connection", (socket)=> {
     })
 
     //handle poll submission by socket
-    socket.on('submitVote', async({pollId, optionsIndex}) => {
+    socket.on('submitVote', async({pollId, optionIndex}) => {
         try {   
             const poll = await Poll.findById(pollId)
-
             if(!poll) return;
 
-            if(optionsIndex < 0 || optionsIndex > poll.options.length) {
+            if(optionIndex < 0 || optionIndex >= poll.options.length) {
                 return;
             }
 
-            poll.options[optionsIndex].votes++;
+            poll.options[optionIndex].votes++;
             poll.totalVotes++;
 
             await poll.save()
-
-            // Broadcast
             io.to(pollId).emit('pollUpdated', poll)
         }   
         catch(err) {
-            console.error("Vote error by socket")
+            console.error("Vote error by socket", err)
         }
     })
 
