@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import socket from '../socket';
 import '../styles/PollPage.css';
+import BACKEND_URL from '../config';
 
 function PollPage() {
   const { id } = useParams();
@@ -26,7 +27,7 @@ function PollPage() {
   useEffect(() => {
     const fetchPoll = async () => {
       try {
-        const res = await fetch(`/api/polls/${id}`);
+        const res = await fetch(`${BACKEND_URL}/api/polls/${id}`);
         if (!res.ok) throw new Error('Poll not found');
         const data = await res.json();
         setPoll(data);

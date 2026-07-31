@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PollCard from '../components/PollCard'
 import '../styles/HomePage.css';
+import BACKEND_URL from '../config';
 
 function HomePage() {
   const [polls, setPolls] = useState([]);
@@ -10,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     const fetchPolls = async () => {
       try {
-        const res = await fetch('/api/polls');
+        const res = await fetch(`${BACKEND_URL}/api/polls`);
         if (!res.ok) throw new Error('Failed to fetch polls');
         const data = await res.json();
         setPolls(data);

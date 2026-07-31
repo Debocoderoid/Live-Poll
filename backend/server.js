@@ -13,13 +13,13 @@ const httpServer = http.createServer(app)
 
 const io = new Server(httpServer, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
         methods: ['GET', 'POST']
     }
 })
 
 app.use(express.json())
-app.use(cors({origin: 'http://localhost:3000'}))
+app.use(cors({origin: process.env.FRONTEND_URL || 'http://localhost:3000'}))
 
 // Poll Routes
 app.use('/api/polls', pollRoutes)
@@ -38,23 +38,33 @@ io.on("connection", (socket)=> {
     })
 
     //handle poll submission by socket
+    
+    // Probelm: This is a classic read-modify-write race. If two votes hit the server around the same time:
+    // Request A reads the poll (votes = 5)
+    // Request B reads the poll (votes = 5) — before A has saved
+    // A increments to 6, saves → DB now shows 6
+    // B increments to 6 (from its own stale copy), saves → DB now shows 6 again
+    // One vote just vanished. Under load (many people voting on a live poll at once — which is exactly the scenario this app is built for), this will silently drop votes.
+
+    // Solution: The fix: atomic increment, don't read-then-write
+    // MongoDB has a built-in atomic $inc operator that increments directly in the database, with no read step at all:
     socket.on('submitVote', async({pollId, optionIndex}) => {
-        try {   
-            const poll = await Poll.findById(pollId)
-            if(!poll) return;
+        try {
+            const poll = await Poll.findByIdAndUpdate(
+                pollId,
+                {
+                    $inc: {
+                        [`options.${optionIndex}.votes`]: 1,
+                        totalVotes: 1
+                    }
+                },
+                { new: true }  // return the updated document
+            );
 
-            if(optionIndex < 0 || optionIndex >= poll.options.length) {
-                return;
-            }
-
-            poll.options[optionIndex].votes++;
-            poll.totalVotes++;
-
-            await poll.save()
-            io.to(pollId).emit('pollUpdated', poll)
-        }   
-        catch(err) {
-            console.error("Vote error by socket", err)
+            if (!poll) return;
+            io.to(pollId).emit('pollUpdated', poll);
+        } catch (err) {
+            console.error("Vote error by socket", err);
         }
     })
 

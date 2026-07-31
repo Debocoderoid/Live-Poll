@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CreatePage.css';
+import BACKEND_URL from '../config';
 
 function CreatePage() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ function CreatePage() {
 
     setSubmitting(true);
     try {
-      const res = await fetch('/api/polls', {
+      const res = await fetch(`${BACKEND_URL}/api/polls`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmedQuestion, options: validOptions }),
