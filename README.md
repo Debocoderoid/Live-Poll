@@ -2,6 +2,9 @@
 
 A real-time polling app — create a poll, share it, and watch votes update live across every connected browser via WebSockets.
 
+<img width="1919" height="913" alt="image" src="https://github.com/user-attachments/assets/09a3438b-6491-4ba1-bbf7-c8f5217df72a" />
+<img width="1917" height="924" alt="image" src="https://github.com/user-attachments/assets/e97196c5-26ba-4109-a2e6-aa4c534a28f1" />
+
 ## Features
 
 - Create polls with 2–5 options
